@@ -1,7 +1,7 @@
 require('dotenv').config()
 const express = require('express')
-const morgan = require('morgan');
-const cors = require('cors');
+const morgan = require('morgan')
+const cors = require('cors')
 
 const app = express()
 
@@ -12,10 +12,9 @@ app.use(express.json())
 
 
 const Person = require('./models/person')
-const { response } = require('express');
 
 
-morgan.token('body', (req, res) => JSON.stringify(req.body))
+morgan.token('body', (req) => JSON.stringify(req.body))
 
 app.get('/', (req, res) => {
   res.send('<h1>Hello World!</h1>')
@@ -25,32 +24,32 @@ app.get('/api/persons', (request, response) => {
   Person.find({}).then(persons => {
     response.json(persons)
   })
-  .catch(error => {
-    console.log(error)
-    response.status(500).end()
-  })
+    .catch(error => {
+      console.log(error)
+      response.status(500).end()
+    })
 })
 
 app.get('/api/persons/:id', (request, response, next) => {
-    Person.findById(request.params.id).then(person => {
-      if (person) {
-        response.json(person)
-      } else {
-        response.status(404).end()
-      }
-    })
+  Person.findById(request.params.id).then(person => {
+    if (person) {
+      response.json(person)
+    } else {
+      response.status(404).end()
+    }
+  })
     .catch(error => next(error))
 
 })
 
 app.get('/info', async (request, response) => {
-  const number = await Person.countDocuments();
-  const res = `Phonebook has info for ${number} people`;
-  const dateNow = new Date();
+  const number = await Person.countDocuments()
+  const res = `Phonebook has info for ${number} people`
+  const dateNow = new Date()
   const info =
   {
-    "message":res,
-    "date":dateNow.toString()
+    'message':res,
+    'date':dateNow.toString()
   }
 
   response.json(info)
@@ -72,13 +71,7 @@ app.post('/api/persons', (request, response) => {
     number: body.number,
 
   })
-  let error = person.validateSync();
 
-  if(error){
-    return response.json(assert.equal(error.errors['name'].message,
-    'Too few characters'));
-
-  }
 
   Person.exists({name:body.name}).then((err, res) => {
     if(err){
@@ -97,10 +90,10 @@ app.post('/api/persons', (request, response) => {
     }
 
   })
-  .catch(error => {
-    console.log(error)
-    response.status(500).end()
-  })
+    .catch(error => {
+      console.log(error)
+      response.status(500).end()
+    })
 })
 
 app.put('/api/persons/:id', (request, response, next) => {
@@ -121,11 +114,12 @@ app.put('/api/persons/:id', (request, response, next) => {
 
 app.delete('/api/persons/:id', (request, response, next) => {
   Person.findByIdAndRemove(request.params.id)
-  .then(result => {
-    response.status(204).end()
-  })
-  .catch(error => next(error))
-    response.status(204).end()
+    .then(result => {
+      console.log(result)
+      response.status(204).end()
+    })
+    .catch(error => next(error))
+  response.status(204).end()
 })
 
 const PORT = process.env.PORT

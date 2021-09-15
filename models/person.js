@@ -1,11 +1,12 @@
 
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 
 const url = process.env.MONGODB_URI
 console.log('connecting to', url)
 
 mongoose.connect(url)
   .then(result => {
+    console.log(result)
     console.log('connected to MongoDB')
   })
   .catch((error) => {
@@ -13,14 +14,14 @@ mongoose.connect(url)
   })
 
 const personSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        min: [3, 'Minimum name lenght of 3 characters, got {VALUE}'],
-    },
-    number: {
-        type: String,
-        min: [8, 'Minimum name lenght of 8 characters, got {VALUE}'],
-    },
+  name: {
+    type: String,
+    min: [3, 'Minimum name lenght of 3 characters, got {VALUE}'],
+  },
+  number: {
+    type: String,
+    min: [8, 'Minimum name lenght of 8 characters, got {VALUE}'],
+  },
 })
 
 personSchema.set('toJSON', {

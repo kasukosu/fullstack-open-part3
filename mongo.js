@@ -1,9 +1,9 @@
 const mongoose = require('mongoose')
 
 const personSchema = new mongoose.Schema({
-    name: String,
-    number: String,
-  })
+  name: String,
+  number: String,
+})
 
 const Person = mongoose.model('Person', personSchema)
 
@@ -21,16 +21,16 @@ const url =
 mongoose.connect(url)
 
 if(process.argv.length < 4){
-    Person.find({}).then(result => {
-        console.log("phonebook:")
+  Person.find({}).then(result => {
+    console.log('phonebook:')
 
-        result.forEach(person => {
-          console.log(person.name + " " + person.number);
-        })
-        mongoose.connection.close()
-        process.exit(1)
-
+    result.forEach(person => {
+      console.log(person.name + ' ' + person.number)
     })
+    mongoose.connection.close()
+    process.exit(1)
+
+  })
 
 }
 
@@ -45,6 +45,6 @@ const person = new Person({
 })
 
 person.save().then(response => {
-  console.log(`added ${name} number ${number} to phonebook`)
+  console.log(`added ${response.name} number ${response.number} to phonebook`)
   mongoose.connection.close()
 })
